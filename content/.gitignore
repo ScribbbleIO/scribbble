@@ -1,0 +1,6 @@
+# We need a file in content to add it to the git repository
+# because the content folder needs to be there to be symlinked
+# to the shared content 
+
+*
+!.gitignore

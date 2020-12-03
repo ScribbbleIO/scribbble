@@ -1,0 +1,8 @@
+node_modules
+
+/build
+/static
+/source/backend/frontend
+
+.DS_Store
+*.sqlite

@@ -1,0 +1,6 @@
+# We need a file in database to add it to the git repository
+# because the database folder needs to be there to be symlinked
+# to the shared database 
+
+*
+!.gitignore

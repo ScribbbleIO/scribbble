@@ -1,0 +1,108 @@
+.article a {
+	@apply text-blue-500 hover:underline;
+}
+
+.article blockquote {
+	@apply px-6 py-2 italic border-l-4 border-blue-300 bg-blue-50 dark:bg-gray-800 dark:border-blue-400;
+}
+
+.article code {
+	@apply px-1 py-0.5 bg-blue-100 rounded dark:bg-gray-700;
+	tab-size: 4;
+}
+
+.article h1 {
+	@apply text-2xl font-semibold dark:text-gray-50;
+}
+
+.article h2 {
+	@apply text-xl font-semibold dark:text-gray-50;
+}
+
+.article h3 {
+	@apply font-semibold dark:text-gray-50;
+}
+
+.article img {
+	@apply block mx-auto rounded-sm;
+}
+
+.article ol {
+	@apply list-decimal list-inside;
+}
+
+.article ul {
+	@apply list-disc list-inside;
+}
+
+.article .hljs {
+	@apply block p-4 overflow-x-auto text-gray-200 bg-coolGray-700 sm:rounded;
+}
+
+.article .hljs-comment,
+.article .hljs-quote {
+	@apply italic text-gray-500;
+}
+
+.article .hljs-doctag,
+.article .hljs-formula,
+.article .hljs-keyword {
+	@apply text-blue-400;
+}
+
+.article .hljs-deletion,
+.article .hljs-name,
+.article .hljs-section,
+.article .hljs-selector-tag,
+.article .hljs-subst {
+	@apply text-red-400;
+}
+
+.article .hljs-literal {
+	@apply text-teal-400;
+}
+
+.article .hljs-addition,
+.article .hljs-attribute,
+.article .hljs-meta-string,
+.article .hljs-regexp,
+.article .hljs-string {
+	@apply text-green-400;
+}
+
+.article .hljs-built_in,
+.article .hljs-class .article .hljs-title {
+	@apply text-pink-400;
+}
+
+.article .hljs-attr,
+.article .hljs-number,
+.article .hljs-selector-attr,
+.article .hljs-selector-class,
+.article .hljs-selector-pseudo,
+.article .hljs-template-variable,
+.article .hljs-type,
+.article .hljs-variable {
+	@apply text-yellow-200;
+}
+
+.article .hljs-bullet,
+.article .hljs-link,
+.article .hljs-meta,
+.article .hljs-selector-id,
+.article .hljs-symbol,
+.article .hljs-title {
+	@apply text-purple-400;
+}
+
+.article .hljs-emphasis {
+	@apply italic;
+}
+
+.article .hljs-strong {
+	@apply font-bold;
+}
+
+.article .hljs-link {
+	@apply underline;
+}

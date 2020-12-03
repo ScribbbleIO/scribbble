@@ -1,0 +1,2 @@
+INSERT OR IGNORE INTO "users" ("email", "admin") VALUES ("test@scribbble.io", 1);
+INSERT INTO "tokens" ("userId", "type", "value", "expireAt") VALUES ((SELECT "id" FROM "users" WHERE "email" = "test@scribbble.io"), "session", "-1", NULL);
