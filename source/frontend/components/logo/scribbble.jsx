@@ -18,11 +18,11 @@ export default function Scribbble() {
 				/>
 			</svg>
 			<span>cr</span>
-			<span className="grid items-y-start items-x-center">
-				<span style={{ gridRow: 1, gridColumn: 1 }}>i</span>
+			<span className="grid col-start-1 row-start-1 items-y-start items-x-center">
+				<span className="col-start-1 row-start-1">i</span>
 				<svg
-					className="relative text-blue-500"
-					style={{ gridRow: 1, gridColumn: 1, width: '0.2em', marginTop: '-0.5px' }}
+					className="relative col-start-1 row-start-1 pb-1 text-blue-500 bg-white"
+					style={{ width: '0.2em' }}
 					viewBox="0 0 1.954 1.799"
 				>
 					<path
