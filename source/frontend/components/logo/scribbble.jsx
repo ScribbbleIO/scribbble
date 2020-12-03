@@ -21,8 +21,8 @@ export default function Scribbble() {
 			<span className="grid col-start-1 row-start-1 items-y-start items-x-center">
 				<span className="col-start-1 row-start-1">i</span>
 				<svg
-					className="relative col-start-1 row-start-1 pb-1 text-blue-500 bg-white"
-					style={{ width: '0.2em' }}
+					className="relative col-start-1 row-start-1 text-blue-500 bg-white"
+					style={{ width: '0.2em', paddingBottom: '0.07em' }}
 					viewBox="0 0 1.954 1.799"
 				>
 					<path
