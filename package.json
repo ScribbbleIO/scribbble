@@ -44,7 +44,7 @@
 		"mdast-util-to-hast": "^10.0.0",
 		"mdast-util-to-markdown": "^0.5.3",
 		"nodemailer": "^6.4.14",
-		"react": "0.0.0-experimental-7f28234f8",
+		"react": "0.14.0",
 		"react-dom": "0.0.0-experimental-7f28234f8",
 		"react-spring": "^8.0.27",
 		"react-sprout": "0.0.16",
