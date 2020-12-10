@@ -1,6 +1,19 @@
 import Router from 'express-promise-router';
+import Mailer from 'nodemailer';
+
 import { ForbiddenError } from '../errors/http.mjs';
 import db from '../database.mjs';
+
+const production = process.env.NODE_ENV === 'production';
+
+let mailer;
+if (production) {
+	mailer = Mailer.createTransport({
+		sendmail: true,
+		newline: 'unix',
+		path: '/usr/sbin/sendmail',
+	});
+}
 
 let adminRouter = Router({ strict: true });
 
@@ -52,6 +65,28 @@ adminRouter.get('/api/admin/users', async function (request, response) {
 	);
 
 	response.json({ user, users });
+});
+
+adminRouter.post('/api/admin/mail', async function (request, response) {
+	let { to, from, subject, content } = request.body;
+
+	if (production) {
+		mailer.sendMail({
+			to: to,
+			from: `"Scribbble.io" <${from}@scribbble.io>`,
+			subject: subject,
+			text: content,
+		});
+	} else {
+		// eslint-disable-next-line no-console
+		console.log(`
+		📨 From: ${from}@scribbble.io\n
+		To: ${to}\n
+		Subject: ${subject}\n
+		Content: ${content}`);
+	}
+
+	response.end();
 });
 
 export default adminRouter;
