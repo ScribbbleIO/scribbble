@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 
 import Header from '../../components/admin/header';
 import Button from '../../components/button';
+import Spinner from '../../components/spinner';
+import useLoadingState from '../../hooks/use-loading-state';
+
+const initialMail = { from: 'contact', to: '', subject: '', content: '' };
 
 export default function Mail(props) {
 	let { user } = props;
-	let [mail, setMail] = useState({ from: 'contact', to: '', subject: '', content: '' });
+	let [mail, setMail] = useState(initialMail);
+
+	let [fetchMail, fetchingMail, pendingMail] = useLoadingState(fetch);
 
 	function handleFromChange(event) {
 		setMail({ ...mail, from: event.target.value });
@@ -26,11 +32,26 @@ export default function Mail(props) {
 	async function handleSendMail(event) {
 		event.preventDefault();
 
-		await fetch('/api/admin/mail', {
+		if (fetchingMail) return;
+
+		let fetchResult = await fetchMail('/api/admin/mail', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(mail),
 		});
+
+		if (fetchResult.ok) {
+			setMail(initialMail);
+		}
+	}
+
+	let renderSubmitButtonChildren = 'Send';
+	if (pendingMail) {
+		renderSubmitButtonChildren = (
+			<span className="flex justify-center">
+				<Spinner size={4} color="text-white" />
+			</span>
+		);
 	}
 
 	return (
@@ -108,7 +129,7 @@ export default function Mail(props) {
 						</div>
 					</div>
 					<div className="self-x-end">
-						<Button type="submit">Send</Button>
+						<Button type="submit">{renderSubmitButtonChildren}</Button>
 					</div>
 				</form>
 			</div>
