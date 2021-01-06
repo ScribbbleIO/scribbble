@@ -37,7 +37,7 @@ export default function Home(props) {
 
 		renderArticleTitle = (
 			<Link
-				to={`preview/${user.username}/${article.slug}/`}
+				to={`preview/${user.username}/${article.slug}`}
 				className="w-full text-sm truncate max-w-0 whitespace-nowrap"
 			>
 				<p className="text-gray-500 truncate hover:underline">{article.title}</p>

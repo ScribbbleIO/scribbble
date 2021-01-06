@@ -25,7 +25,7 @@ const ApplicationRouter = Router(
 		<Dashboard path="dashboard" data={getDashboardData} />
 		<New path="new" data={getNewData} />
 		<Edit path="edit/:slug" data={getEditData} />
-		<Preview path="preview/:slug/" data={getPreviewData} />
+		<Preview path="preview/:slug" data={getPreviewData} />
 
 		<NotFound path="*" />
 	</ErrorBoundary>,
