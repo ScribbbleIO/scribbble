@@ -381,7 +381,7 @@ function ArticleListItem(props) {
 	} else {
 		renderTitle = (
 			<Link
-				to={`/preview/${slug}`}
+				to={`/preview/${slug}/`}
 				// We need to add a pr-1 for emojis in the title
 				className="pr-1 text-sm font-medium leading-5 text-gray-500 truncate self-x-start"
 			>

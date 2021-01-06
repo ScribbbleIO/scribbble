@@ -16,7 +16,7 @@ const AdminRouter = Router(
 		<Mail path="mail" data={getMailData} />
 		<Users path="users" data={getUsersData} />
 
-		<Article path="preview/:username/:slug" data={getArticleData} />
+		<Article path="preview/:username/:slug/" data={getArticleData} />
 
 		<NotFound path="*" />
 	</ErrorBoundary>,
