@@ -44,7 +44,7 @@ import AnimatedSuccessIcon from '../icons/animated/success';
 import useFirstRenderRef from '../hooks/use-first-render-ref';
 import StaticContext from '../contexts/is-static';
 
-let hastHighlight = highlightCode();
+let hastHighlight = highlightCode({ ignoreMissing: true });
 
 const development = (import.meta.env?.MODE ?? process?.env?.NODE_ENV ?? 'development') === 'development';
 const baseUrl = development ? 'http://localhost:8080' : 'https://scribbble.io';

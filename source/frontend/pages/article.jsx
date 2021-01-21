@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-sprout';
+
 import FooterSmall from '../components/footer/footer-small.jsx';
 import ArticleHeader from '../components/headers/article-header.jsx';
 
@@ -38,9 +40,9 @@ function Info(props) {
 	let renderProfileLink;
 	if (username != undefined && hasPublishedArticle > 0) {
 		renderProfileLink = (
-			<a href={`/${username}/`} className="text-lg text-blue-500 sm:text-base hover:underline">
+			<Link to={`/${username}/`} className="text-lg text-blue-500 sm:text-base hover:underline">
 				{name ?? username}
-			</a>
+			</Link>
 		);
 	}
 

@@ -142,6 +142,9 @@ usersRouter.get('/api/users/:username/articles/:slug', async function (request, 
 		throw new NotFoundError(`No article with slug "${slug}" found for user with username "${username}"`);
 	}
 
+	let articles = await db.all('SELECT * FROM articles WHERE userId = ? AND published = 1', user.id);
+	user.hasPublishedArticle = articles.length > 0;
+
 	response.json({ article, author: user });
 });
 
@@ -149,6 +152,8 @@ usersRouter.get('/api/users/:username/articles', async function (request, respon
 	let username = request.params.username;
 	let user = await db.get('SELECT * FROM users WHERE username = ?', username);
 	let articles = await db.all('SELECT * FROM articles WHERE userId = ? AND published = 1', user.id);
+
+	user.hasPublishedArticle = articles.length > 0;
 
 	response.json({ user, articles });
 });

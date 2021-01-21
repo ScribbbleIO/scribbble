@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-sprout';
 import StarIcon from '../icons/star.jsx';
 import FooterSmall from '../components/footer/footer-small.jsx';
 import ProfileHeader from '../components/headers/profile-header.jsx';
@@ -89,17 +90,17 @@ function ArticlePreview({ title, pinnedAt, publishedAt, description, slug }) {
 
 	return (
 		<article className="flex flex-col">
-			<a
-				href={`${slug}/`}
+			<Link
+				to={`${slug}/`}
 				className="text-2xl font-semibold leading-snug text-gray-700 truncate sm:text-3xl hover:text-gray-900 dark:text-gray-200 dark-hover:text-white"
 			>
 				{title}
-			</a>
+			</Link>
 			{renderInfo}
 			{renderDescription}
-			<a href={`${slug}/`} className="inline-block mt-2 text-blue-500 hover:underline">
+			<Link to={`${slug}/`} className="inline-block mt-2 text-blue-500 hover:underline">
 				Read more
-			</a>
+			</Link>
 		</article>
 	);
 }

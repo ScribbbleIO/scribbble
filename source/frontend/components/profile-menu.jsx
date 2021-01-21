@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-sprout';
 
 import UserIcon from '../icons/user';
 
@@ -45,14 +46,9 @@ export default function ProfileMenu(props) {
 		let renderProfilePageLink;
 		if (user.hasPublishedArticle) {
 			renderProfilePageLink = (
-				<a
-					href={`/${user.username}/`}
-					target="_blank"
-					rel="noreferrer"
-					className="font-medium truncate hover:underline"
-				>
+				<Link to={`/${user.username}/`} className="font-medium truncate hover:underline">
 					{user.name ?? user.username}
-				</a>
+				</Link>
 			);
 		} else {
 			renderProfilePageLink = <span className="font-medium truncate">{user.name ?? user.username}</span>;
