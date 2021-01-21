@@ -1,5 +1,6 @@
 import Path from 'path';
 import React from 'react';
+import Router from 'react-sprout';
 import ReactDom from 'react-dom/server.js';
 import Filesystem from 'fs-extra';
 
@@ -18,6 +19,10 @@ const templatePath = Path.resolve('source', 'backend', 'templates', 'article.htm
 const template = await Filesystem.readFile(templatePath, 'utf-8');
 
 let highlight = highlightCode({ ignoreMissing: true });
+
+// We need this empty ServerRouter because we use react-sprouts Link component
+// This component can only run inside a Router.
+let ServerRouter = Router.default([], { location: '/' });
 
 export default async function updateArticlePage(articleId) {
 	let article = await db.get('SELECT * FROM articles WHERE id = ? AND published = 1', articleId);
@@ -46,7 +51,11 @@ async function update(user, article) {
 	highlight(hast);
 
 	let render = ReactDom.renderToStaticMarkup(
-		React.createElement(Article, { ...article, author: user }, hastToReact(hast)),
+		React.createElement(
+			ServerRouter,
+			null,
+			React.createElement(Article, { ...article, author: user }, hastToReact(hast)),
+		),
 	);
 
 	let articleDirectoryPath = Path.join(contentDirectory, user.username, article.slug);
