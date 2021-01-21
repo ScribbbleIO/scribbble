@@ -47,7 +47,7 @@ async function update(user, article) {
 	highlight(hast);
 
 	function ArticleRoute() {
-		return React.createElement(Article, { ...article, author: user });
+		return React.createElement(Article, { ...article, author: user }, hastToReact(hast));
 	}
 
 	let url = `/${user.username}/${article.slug}/`;
