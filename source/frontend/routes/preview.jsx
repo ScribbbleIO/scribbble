@@ -22,7 +22,7 @@ export async function getPreviewData({ slug }) {
 
 export default function PreviewRoute() {
 	let { user, article } = useData();
-	let { title, publishedAt, content } = article;
+	let { title, content, slug, publishedAt } = article;
 
 	useLayoutEffect(() => {
 		document.body.classList.add('dark:bg-dark');
@@ -50,7 +50,7 @@ export default function PreviewRoute() {
 	let children = hastToReact(hast);
 
 	return (
-		<Article title={title} publishedAt={publishedAt} author={user}>
+		<Article title={title} author={user} slug={slug} publishedAt={publishedAt}>
 			{children}
 		</Article>
 	);

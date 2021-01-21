@@ -11,7 +11,6 @@ export default function Article(props) {
 
 	return (
 		<div className="flex flex-col min-h-full px-6 dark:bg-dark">
-			<link rel="stylesheet" href="/article.css" />
 			<div className="flex-grow w-full max-w-lg mx-auto font-serif text-gray-700 dark:text-gray-200">
 				<ArticleHeader username={author.username} slug={slug} />
 
