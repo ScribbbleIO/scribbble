@@ -1,5 +1,6 @@
 import Path from 'path';
 import React from 'react';
+import Router from 'react-sprout';
 import ReactDom from 'react-dom/server.js';
 import Filesystem from 'fs-extra';
 
@@ -18,7 +19,15 @@ export default async function updateProfilePage(username) {
 	let userDirectory = Path.join(contentDirectory, user.username);
 	let profilePath = Path.join(userDirectory, 'index.html');
 	if (articles.length > 0) {
-		let render = ReactDom.renderToStaticMarkup(React.createElement(Profile, { user, articles }));
+		function ProfileRoute() {
+			return React.createElement(Profile, { user, articles });
+		}
+
+		let url = `/${user.username}/`;
+		let ProfileRouter = Router.default(React.createElement(ProfileRoute, { path: url }), {
+			location: url,
+		});
+		let render = ReactDom.renderToStaticMarkup(React.createElement(ProfileRouter));
 
 		let htmlContent = template;
 		htmlContent = htmlContent.replace('<!-- title -->', `<title>${user.name ?? user.username} - Scribbble</title>`);

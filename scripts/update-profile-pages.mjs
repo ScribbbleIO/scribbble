@@ -7,6 +7,7 @@ const production = process.env.NODE_ENV === 'production';
 const databaseFileName = production ? 'production.sqlite' : 'development.sqlite';
 const databaseFilePath = Path.resolve('database', databaseFileName);
 
+console.log('⚠️  Did you transpile your frontend?'); // eslint-disable-line no-console
 console.log(`🚧 Updating profile pages from database ${databaseFilePath}`); // eslint-disable-line no-console
 
 let db = await Sqlite.open({ filename: databaseFilePath, driver: Sqlite3.Database });

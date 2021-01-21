@@ -1,5 +1,6 @@
 import Path from 'path';
 import React from 'react';
+import Router from 'react-sprout';
 import ReactDom from 'react-dom/server.js';
 import Filesystem from 'fs-extra';
 
@@ -45,9 +46,15 @@ async function update(user, article) {
 	let hast = mdastToHast(mdast);
 	highlight(hast);
 
-	let render = ReactDom.renderToStaticMarkup(
-		React.createElement(Article, { ...article, author: user }, hastToReact(hast)),
-	);
+	function ArticleRoute() {
+		return React.createElement(Article, { ...article, author: user });
+	}
+
+	let url = `/${user.username}/${article.slug}/`;
+	let ArticleRouter = Router.default(React.createElement(ArticleRoute, { path: url }), {
+		location: url,
+	});
+	let render = ReactDom.renderToStaticMarkup(React.createElement(ArticleRouter));
 
 	let articleDirectoryPath = Path.join(contentDirectory, user.username, article.slug);
 	assertAccessibleDirectoryForUsername(articleDirectoryPath, user.username);
