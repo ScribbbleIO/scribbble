@@ -8,6 +8,8 @@ import hastToReact from '../utils/hast/hast-to-react.js';
 import hightlightCode from '@mapbox/rehype-prism';
 import markdownToMdast from 'mdast-util-from-markdown';
 
+let highlight = hightlightCode({ ignoreMissing: true });
+
 export async function getArticleData({ username, slug }) {
 	return await get(`/api/users/${username}/articles/${slug}`);
 }
@@ -15,8 +17,6 @@ export async function getArticleData({ username, slug }) {
 export default function ArticleRoute() {
 	let { article, author } = useData();
 	let { title, content, slug, publishedAt } = article;
-
-	let highlight = hightlightCode();
 
 	let mdast = markdownToMdast(content);
 	let hast = mdastToHast(mdast);

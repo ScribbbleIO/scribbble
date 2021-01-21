@@ -12,7 +12,7 @@ import transformRelativeImages from '../utils/mdast/transform-relative-images';
 
 const development = (import.meta.env?.MODE ?? process?.env?.NODE_ENV ?? 'development') === 'development';
 const baseUrl = development ? 'http://localhost:8080' : 'https://scribbble.io';
-let highlight = highlightCode();
+let highlight = highlightCode({ ignoreMissing: true });
 
 export async function getPreviewData({ slug }) {
 	let promises = [await get('/api/profile'), await get('/api/articles/' + slug)];

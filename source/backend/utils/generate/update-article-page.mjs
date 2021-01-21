@@ -17,6 +17,8 @@ const contentDirectory = Path.resolve('content');
 const templatePath = Path.resolve('source', 'backend', 'templates', 'article.html');
 const template = await Filesystem.readFile(templatePath, 'utf-8');
 
+let highlight = highlightCode({ ignoreMissing: true });
+
 export default async function updateArticlePage(articleId) {
 	let article = await db.get('SELECT * FROM articles WHERE id = ? AND published = 1', articleId);
 	let user = await db.get('SELECT * FROM users WHERE id = ?', article?.userId);
@@ -41,7 +43,6 @@ export async function updateArticlePages(username) {
 async function update(user, article) {
 	let mdast = markdownToMdast(article.content);
 	let hast = mdastToHast(mdast);
-	let highlight = highlightCode();
 	highlight(hast);
 
 	let render = ReactDom.renderToStaticMarkup(
