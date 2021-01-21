@@ -5,7 +5,7 @@ import { get } from '../utils/rest';
 
 import mdastToHast from 'mdast-util-to-hast';
 import hastToReact from '../utils/hast/hast-to-react.js';
-import hastHighlight from 'rehype-highlight';
+import hightlightCode from '@mapbox/rehype-prism';
 import markdownToMdast from 'mdast-util-from-markdown';
 
 export async function getArticleData({ username, slug }) {
@@ -16,7 +16,7 @@ export default function ArticleRoute() {
 	let { article, author } = useData();
 	let { title, content, slug, publishedAt } = article;
 
-	let highlight = hastHighlight();
+	let highlight = hightlightCode();
 
 	let mdast = markdownToMdast(content);
 	let hast = mdastToHast(mdast);

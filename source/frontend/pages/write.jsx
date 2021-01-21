@@ -16,7 +16,7 @@ import hastToReact from '../utils/hast/hast-to-react.mjs';
 import blobToBase64 from '../utils/blob/blob-to-base64';
 import base64toBlob from '../utils/base64/base64-to-blob';
 import reloadImages from '../utils/markdown/reload-images';
-import rehypeHighlight from 'rehype-highlight';
+import highlightCode from '@mapbox/rehype-prism';
 import markdownToMdast from 'mdast-util-from-markdown';
 import mdastToMarkdown from 'mdast-util-to-markdown';
 import transformRelativeImages from '../utils/mdast/transform-relative-images';
@@ -41,8 +41,10 @@ import WriteAndPreviewIcon from '../icons/write-preview';
 import ArrowLeftIcon from '../icons/arrow-left';
 import Spinner from '../components/spinner';
 import AnimatedSuccessIcon from '../icons/animated/success';
+import useFirstRenderRef from '../hooks/use-first-render-ref';
+import StaticContext from '../contexts/is-static';
 
-let hastHighlight = rehypeHighlight();
+let hastHighlight = highlightCode();
 
 const development = (import.meta.env?.MODE ?? process?.env?.NODE_ENV ?? 'development') === 'development';
 const baseUrl = development ? 'http://localhost:8080' : 'https://scribbble.io';
@@ -67,6 +69,7 @@ export default function Write(props) {
 	let [saveModalOpen, setSaveModalOpen] = useState(false);
 	let [caretPosition, setCaretPosition] = useState();
 	let [executeFetch, fetching, pending] = useLoadingState(fetch);
+	let firstRenderRef = useFirstRenderRef();
 
 	let [article, setArticle] = useImmerAndUpdateLocalStorageState('article', function () {
 		let articleJson = window.localStorage.getItem('article');
@@ -88,6 +91,19 @@ export default function Write(props) {
 		previewWorkerRef.current = new Worker('../workers/preview.js', { type: 'module' });
 		previewWorkerRef.current.addEventListener('error', function () {
 			usePreviewWorkerRef.current = false;
+
+			// If the Worker errors in safari/firefox, we need to
+			// calculate the preview immediatly
+			async function run() {
+				let mdast = markdownToMdast(article.content);
+				transformRelativeImages(mdast, articleBaseUrl);
+				let hast = mdastToHast(mdast);
+				hastHighlight(hast);
+				let children = hastToReact(hast);
+				setPreview(children);
+			}
+
+			run();
 		});
 		previewWorkerRef.current.addEventListener('message', async function (message) {
 			// We need to do the transform to react elements here, because react elements can not be transfered between workers.
@@ -103,24 +119,10 @@ export default function Write(props) {
 		};
 	}, []);
 
-	// Generate the preview on mount
-	// We can not trust the worker to do it the first time,
-	// as the worker errors in safari/firefox because of the import statements
-	useEffect(() => {
-		async function run() {
-			let mdast = markdownToMdast(article.content);
-			transformRelativeImages(mdast, articleBaseUrl);
-			let hast = mdastToHast(mdast);
-			hastHighlight(hast);
-			let children = hastToReact(hast);
-			setPreview(children);
-		}
-
-		run();
-	}, []);
-
 	// Update markdown after content has changed
 	useEffect(() => {
+		let timeoutMs = firstRenderRef.current ? 0 : 400;
+
 		let timeout = setTimeout(async function () {
 			if (usePreviewWorkerRef.current) {
 				previewWorkerRef.current.postMessage({ markdown: article.content, url: articleBaseUrl });
@@ -132,7 +134,7 @@ export default function Write(props) {
 				let children = hastToReact(hast);
 				setPreview(children);
 			}
-		}, 400);
+		}, timeoutMs);
 
 		return function () {
 			clearTimeout(timeout);
@@ -691,9 +693,9 @@ export default function Write(props) {
 		);
 	}
 
-	let renderArticleOptions;
+	let renderArticleOptionsModal;
 	if (saveModalOpen) {
-		renderArticleOptions = (
+		renderArticleOptionsModal = (
 			<ArticleOptionsModal
 				username={user.username}
 				title={article.title}
@@ -726,7 +728,7 @@ export default function Write(props) {
 
 	return (
 		<>
-			{renderArticleOptions}
+			{renderArticleOptionsModal}
 			<div className="grid w-full h-full" style={{ gridTemplateRows: 'minmax(0, 1fr) max-content' }}>
 				<section className={containerClassName}>
 					{renderWrite}

@@ -1,9 +1,9 @@
 import markdownToMdast from 'mdast-util-from-markdown';
 import mdastToHast from 'mdast-util-to-hast';
-import rehypeHighlight from 'rehype-highlight';
+import highlightCode from '@mapbox/rehype-prism';
 import transformRelativeImages from '../utils/mdast/transform-relative-images';
 
-let hastHighlight = rehypeHighlight();
+let hastHighlight = highlightCode();
 
 self.addEventListener('message', async function (message) {
 	let { markdown, url } = message.data;

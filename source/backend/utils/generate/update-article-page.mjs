@@ -4,7 +4,7 @@ import ReactDom from 'react-dom/server.js';
 import Filesystem from 'fs-extra';
 
 import mdastToHast from 'mdast-util-to-hast';
-import hastHighlight from 'rehype-highlight';
+import highlightCode from '@mapbox/rehype-prism';
 import markdownToMdast from 'mdast-util-from-markdown';
 import hastToReact from '../hast/hast-to-react.mjs';
 import assertAccessibleDirectoryForUsername from '../assert/assert-accessible-directory-for-username.mjs';
@@ -41,7 +41,7 @@ export async function updateArticlePages(username) {
 async function update(user, article) {
 	let mdast = markdownToMdast(article.content);
 	let hast = mdastToHast(mdast);
-	let highlight = hastHighlight();
+	let highlight = highlightCode();
 	highlight(hast);
 
 	let render = ReactDom.renderToStaticMarkup(

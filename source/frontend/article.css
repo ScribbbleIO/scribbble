@@ -35,74 +35,141 @@
 	@apply list-disc list-inside;
 }
 
-.article .hljs {
+/* pre[class*='language-'] > code[class*='language-'] {
 	@apply block p-4 overflow-x-auto text-gray-200 bg-coolGray-700 sm:rounded;
+	tab-size: 4;
+} */
+
+pre[class*='language-'] > code[class*='language-'] {
+	@apply block p-4 overflow-x-auto sm:rounded;
+	color: #abb2bf;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+	tab-size: 4;
+	hyphens: none;
+	background: #282c34;
 }
 
-.article .hljs-comment,
-.article .hljs-quote {
-	@apply italic text-gray-500;
+pre[class*='language-']::selection,
+pre[class*='language-'] ::selection,
+code[class*='language-']::selection,
+code[class*='language-'] ::selection {
+	text-shadow: none;
+	background: #383e49;
 }
 
-.article .hljs-doctag,
-.article .hljs-formula,
-.article .hljs-keyword {
-	@apply text-blue-400;
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #5c6370;
 }
 
-.article .hljs-deletion,
-.article .hljs-name,
-.article .hljs-section,
-.article .hljs-selector-tag,
-.article .hljs-subst {
-	@apply text-red-400;
+.token.punctuation {
+	color: #abb2bf;
 }
 
-.article .hljs-literal {
-	@apply text-teal-400;
+.token.selector,
+.token.imports,
+.token.tag {
+	color: #e06c75;
 }
 
-.article .hljs-addition,
-.article .hljs-attribute,
-.article .hljs-meta-string,
-.article .hljs-regexp,
-.article .hljs-string {
-	@apply text-green-400;
+.token.property,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.attr-name,
+.token.deleted {
+	color: #d19a66;
 }
 
-.article .hljs-built_in,
-.article .hljs-class .article .hljs-title {
-	@apply text-pink-400;
+.token.string,
+.token.char,
+.token.attr-value,
+.token.builtin,
+.token.inserted {
+	color: #98c379;
 }
 
-.article .hljs-attr,
-.article .hljs-number,
-.article .hljs-selector-attr,
-.article .hljs-selector-class,
-.article .hljs-selector-pseudo,
-.article .hljs-template-variable,
-.article .hljs-type,
-.article .hljs-variable {
-	@apply text-yellow-200;
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #56b6c2;
 }
 
-.article .hljs-bullet,
-.article .hljs-link,
-.article .hljs-meta,
-.article .hljs-selector-id,
-.article .hljs-symbol,
-.article .hljs-title {
-	@apply text-purple-400;
+.token.atrule,
+.token.keyword {
+	color: #c678dd;
 }
 
-.article .hljs-emphasis {
-	@apply italic;
+.token.function {
+	color: #61afef;
 }
 
-.article .hljs-strong {
-	@apply font-bold;
+.token.regex,
+.token.important,
+.token.variable {
+	color: #c678dd;
 }
 
-.article .hljs-link {
-	@apply underline;
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+pre.line-numbers {
+	position: relative;
+	padding-left: 3.8rem;
+	counter-reset: linenumber;
+}
+
+pre.line-numbers > code {
+	position: relative;
+}
+
+.line-numbers .line-numbers-rows {
+	position: absolute;
+	pointer-events: none;
+	top: 0;
+	font-size: 100%;
+	left: -3.8rem;
+	width: 3rem; /* works for line-numbers below 1000 lines */
+	letter-spacing: -1px;
+	border-right: 0;
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.line-numbers-rows > span {
+	pointer-events: none;
+	display: block;
+	counter-increment: linenumber;
+}
+
+.line-numbers-rows > span:before {
+	content: counter(linenumber);
+	color: #5c6370;
+	display: block;
+	padding-right: 0.8rem;
+	text-align: right;
 }

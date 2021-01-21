@@ -6,12 +6,13 @@ import Article from '../pages/article';
 
 import mdastToHast from 'mdast-util-to-hast';
 import hastToReact from '../utils/hast/hast-to-react.js';
-import hastHighlight from 'rehype-highlight';
+import highlightCode from '@mapbox/rehype-prism';
 import markdownToMdast from 'mdast-util-from-markdown';
 import transformRelativeImages from '../utils/mdast/transform-relative-images';
 
 const development = (import.meta.env?.MODE ?? process?.env?.NODE_ENV ?? 'development') === 'development';
 const baseUrl = development ? 'http://localhost:8080' : 'https://scribbble.io';
+let highlight = highlightCode();
 
 export async function getPreviewData({ slug }) {
 	let promises = [await get('/api/profile'), await get('/api/articles/' + slug)];
@@ -39,7 +40,6 @@ export default function PreviewRoute() {
 		};
 	}, []);
 
-	let highlight = hastHighlight();
 	let articleBaseUrl = `${baseUrl}/${user.username}/${article.slug}/`;
 
 	let mdast = markdownToMdast(content);
