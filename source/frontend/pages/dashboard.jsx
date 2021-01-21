@@ -340,9 +340,9 @@ function ArticleListItem(props) {
 	);
 
 	let renderPencil = (
-		<a href={'/edit/' + slug} className="text-blue-500 hover:text-blue-800 focus:outline-none focus:text-blue-800">
+		<Link to={'/edit/' + slug} className="text-blue-500 hover:text-blue-800 focus:outline-none focus:text-blue-800">
 			<PencilIcon className="w-5 h-5" />
-		</a>
+		</Link>
 	);
 
 	let renderTrash = (
@@ -358,15 +358,13 @@ function ArticleListItem(props) {
 	if (published) {
 		renderTitle = (
 			<div className="flex items-center group">
-				<a
-					href={`/${username}/${slug}/`}
-					target="_blank"
-					rel="noreferrer"
+				<Link
+					to={`/${username}/${slug}/`}
 					// We need to add a pr-1 for emojis in the title
 					className="pr-1 text-sm font-medium leading-5 text-gray-500 truncate self-x-start"
 				>
 					{title}
-				</a>
+				</Link>
 				<div className="relative flex items-center justify-center ml-2">
 					<button
 						onClick={handleLinkIconClick}

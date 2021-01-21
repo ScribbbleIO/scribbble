@@ -1,16 +1,17 @@
 import React from 'react';
-import Header from '../components/header.jsx';
 import FooterSmall from '../components/footer/footer-small.jsx';
+import ArticleHeader from '../components/headers/article-header.jsx';
 
 import parseDate from '../utils/date/parse.js';
 
 export default function Article(props) {
-	let { title, publishedAt, author, children } = props;
+	let { title, author, slug, publishedAt, children } = props;
+
 	return (
 		<div className="flex flex-col min-h-full px-6 dark:bg-dark">
 			<link rel="stylesheet" href="/article.css" />
 			<div className="flex-grow w-full max-w-lg mx-auto font-serif text-gray-700 dark:text-gray-200">
-				<Header username={author.username} />
+				<ArticleHeader username={author.username} slug={slug} />
 
 				<article className="pt-8">
 					<div className="space-y-4">
@@ -19,7 +20,7 @@ export default function Article(props) {
 					</div>
 
 					<div className="pt-12 pb-20">
-						<div className="space-y-6 leading-relaxed article">{children}</div>
+						<div className="flex flex-col space-y-6 leading-relaxed article">{children}</div>
 					</div>
 				</article>
 			</div>

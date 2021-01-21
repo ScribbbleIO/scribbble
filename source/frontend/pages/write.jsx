@@ -495,13 +495,15 @@ export default function Write(props) {
 
 	let renderPreview = (
 		<div className={(previewing ? 'block' : 'hidden') + ' overflow-y-auto dark:bg-dark'}>
-			<Article
-				title={article.title || 'Your title...'}
-				publishedAt={article.publishedAt || Date.now()}
-				author={user}
-			>
-				{preview}
-			</Article>
+			<StaticContext.Provider value={true}>
+				<Article
+					title={article.title || 'Your title...'}
+					publishedAt={article.publishedAt || Date.now()}
+					author={user}
+				>
+					{preview}
+				</Article>
+			</StaticContext.Provider>
 		</div>
 	);
 

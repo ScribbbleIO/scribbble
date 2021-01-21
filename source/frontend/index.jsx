@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
+import StaticContext from './contexts/is-static';
 const Admin = React.lazy(() => import('./admin'));
 const Application = React.lazy(() => import('./application'));
 
@@ -14,4 +15,9 @@ if (match) {
 	render = <Application />;
 }
 
-ReactDOM.render(<Suspense fallback={null}>{render}</Suspense>, document.getElementById('root'));
+ReactDOM.render(
+	<Suspense fallback={null}>
+		<StaticContext.Provider value={false}>{render}</StaticContext.Provider>
+	</Suspense>,
+	document.getElementById('root'),
+);

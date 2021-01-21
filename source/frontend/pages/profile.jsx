@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../components/header.jsx';
 import StarIcon from '../icons/star.jsx';
 import FooterSmall from '../components/footer/footer-small.jsx';
+import ProfileHeader from '../components/headers/profile-header.jsx';
 
 import parseDate from '../utils/date/parse.js';
 import { sortArticles } from '../utils/sort.js';
@@ -18,7 +18,7 @@ export default function Profile(props) {
 	return (
 		<div className="flex flex-col min-h-full px-6 dark:bg-dark">
 			<div className="flex-grow w-full max-w-lg mx-auto font-serif text-gray-700 dark:text-gray-200">
-				<Header username={user.username} rss={true} />
+				<ProfileHeader username={user.username} />
 
 				<Info {...user} />
 

@@ -14,7 +14,7 @@ export async function getArticleData({ username, slug }) {
 
 export default function ArticleRoute() {
 	let { article, author } = useData();
-	let { title, content, publishedAt } = article;
+	let { title, content, slug, publishedAt } = article;
 
 	let highlight = hastHighlight();
 
@@ -24,7 +24,7 @@ export default function ArticleRoute() {
 	let children = hastToReact(hast);
 
 	return (
-		<Article title={title} publishedAt={publishedAt} author={author}>
+		<Article title={title} author={author} slug={slug} publishedAt={publishedAt}>
 			{children}
 		</Article>
 	);
