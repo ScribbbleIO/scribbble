@@ -58,7 +58,7 @@ module.exports = {
 		mode: 'all',
 		content: ['./source/**/*.html', './source/**/*.js', './source/**/*.jsx'],
 		options: {
-			safelist: [/hljs/],
+			safelist: [/token/, /line-numbers/],
 		},
 	},
 	plugins: [tailwindFormsPlugin, gridTemplatePlugin, gridPlacementPlugin, lineClampPlugin, darkModePlugin()],
