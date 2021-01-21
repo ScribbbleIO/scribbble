@@ -1,6 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const darkModePlugin = require('tailwindcss-dark-mode');
+const lineClampPlugin = require('@tailwindcss/line-clamp');
 const gridTemplatePlugin = require('tailwindcss-grid-template');
 const tailwindFormsPlugin = require('@tailwindcss/forms');
 const gridPlacementPlugin = require('tailwindcss-grid-placement');
@@ -43,7 +44,6 @@ module.exports = {
 			'max': 'max-content',
 		},
 	},
-	// variants: ['responsive', 'group-hover', 'hover', 'focus', 'active', 'disabled', 'dark', 'dark-hover'],
 	variants: {
 		extend: {
 			visibility: ['group-hover'],
@@ -61,5 +61,5 @@ module.exports = {
 			safelist: [/hljs/],
 		},
 	},
-	plugins: [tailwindFormsPlugin, gridTemplatePlugin, gridPlacementPlugin, darkModePlugin()],
+	plugins: [tailwindFormsPlugin, gridTemplatePlugin, gridPlacementPlugin, lineClampPlugin, darkModePlugin()],
 };

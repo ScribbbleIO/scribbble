@@ -15,7 +15,9 @@ export default function Article(props) {
 
 				<article className="pt-8">
 					<div className="space-y-4">
-						<h1 className="text-3xl font-semibold truncate sm:text-4xl dark:text-gray-50">{title}</h1>
+						<h1 className="text-3xl font-semibold leading-loose break-words line-clamp-3 sm:text-4xl dark:text-gray-50">
+							{title}
+						</h1>
 						<Info {...author} publishedAt={publishedAt} />
 					</div>
 
