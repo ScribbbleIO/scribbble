@@ -143,7 +143,7 @@ export default function Dashboard() {
 					<p className="text-sm leading-5 text-gray-300">No posts yet. Start writing!</p>
 					<Link
 						to="/new"
-						className="px-4 py-3 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md focus:outline-none focus:ring-blue-500 focus:ring-4 focus:ring-opacity-50"
+						className="px-4 py-3 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
 					>
 						Write
 					</Link>
