@@ -92,7 +92,7 @@ function ArticlePreview({ title, pinnedAt, publishedAt, description, slug }) {
 		<article className="flex flex-col">
 			<Link
 				to={`${slug}/`}
-				className="text-2xl font-semibold leading-snug text-gray-700 truncate sm:text-3xl hover:text-gray-900 dark:text-gray-200 dark-hover:text-white"
+				className="text-2xl font-semibold leading-snug text-gray-700 line-clamp-3 sm:text-3xl hover:text-gray-900 dark:text-gray-200 dark-hover:text-white"
 			>
 				{title}
 			</Link>
