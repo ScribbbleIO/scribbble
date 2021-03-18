@@ -35,10 +35,10 @@
 	@apply list-disc list-inside;
 }
 
-/* pre[class*='language-'] > code[class*='language-'] {
+pre[class*='language-'] > code[class*='language-'] {
 	@apply block p-4 overflow-x-auto text-gray-200 bg-coolGray-700 sm:rounded;
 	tab-size: 4;
-} */
+}
 
 pre[class*='language-'] > code[class*='language-'] {
 	@apply block p-4 overflow-x-auto sm:rounded;
