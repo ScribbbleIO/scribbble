@@ -22,10 +22,20 @@ const emailTemplateHtml = await Filesystem.readFile(emailTemplateHtmlPath, 'utf-
 
 let mailer;
 if (production) {
+	const keysPath = Path.resolve('..', '..', 'keys');
+	const keyPath = Path.join(keysPath, 'mail');
+	const key = await Filesystem.readFile(keyPath, 'utf-8');
+
 	mailer = Mailer.createTransport({
 		sendmail: true,
 		newline: 'unix',
 		path: '/usr/sbin/sendmail',
+		secure: true,
+		dkim: {
+			domainName: 'scribbble.io',
+			keySelector: 'default',
+			privateKey: key,
+		},
 	});
 }
 
