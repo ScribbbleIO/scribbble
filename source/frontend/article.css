@@ -36,11 +36,6 @@
 }
 
 pre[class*='language-'] > code[class*='language-'] {
-	@apply block p-4 overflow-x-auto text-gray-200 bg-coolGray-700 sm:rounded;
-	tab-size: 4;
-}
-
-pre[class*='language-'] > code[class*='language-'] {
 	@apply block p-4 overflow-x-auto sm:rounded;
 	color: #abb2bf;
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
