@@ -98,7 +98,7 @@ function ArticlePreview({ title, pinnedAt, publishedAt, description, slug }) {
 			</Link>
 			{renderInfo}
 			{renderDescription}
-			<Link to={`${slug}/`} className="inline-block mt-2 text-blue-500 hover:underline">
+			<Link to={`${slug}/`} aria-label={title} className="inline-block mt-2 text-blue-500 hover:underline">
 				Read more
 			</Link>
 		</article>
