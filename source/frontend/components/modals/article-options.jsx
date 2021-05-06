@@ -317,7 +317,7 @@ export default function ArticleOptionsModal(props) {
 					<input
 						id="title"
 						type="text"
-						className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:ring focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-50 sm:text-sm sm:leading-5"
+						className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-50 sm:text-sm sm:leading-5"
 						placeholder="Your title..."
 						value={article.title}
 						onChange={handleTitleChange}

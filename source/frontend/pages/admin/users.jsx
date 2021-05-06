@@ -1,12 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import UserIcon from '../../icons/user';
-import Header from '../../components/admin/header';
+import UserIcon from '../../icons/user.jsx';
+import Header from '../../components/admin/header.jsx';
 
-import parseDate, { parseDatetime } from '../../utils/date/parse';
+import parseDate, { parseDatetime } from '../../utils/date/parse.js';
 
 export default function Users(props) {
-	let { user, users } = props;
+	let { user, users: initialUsers, totalUsers: initialTotalUsers, hasMore: initialHasMore } = props;
+	let [page, setPage] = useState(1);
+	let [users, setUsers] = useState(initialUsers);
+	let [search, setSearch] = useState('');
+	let [hasMore, setHasMore] = useState(initialHasMore);
+	let [totalUsers, setTotalUsers] = useState(initialTotalUsers);
+
+	function handlePreviousClick() {
+		let newPage = page - 1;
+		setPage(newPage);
+		loadUsers(newPage, search);
+	}
+
+	function handleNextClick() {
+		let newPage = page + 1;
+		setPage(newPage);
+		loadUsers(newPage, search);
+	}
+
+	function handleSearchChange(event) {
+		let newSearch = event.target.value;
+		setSearch(newSearch);
+		loadUsers(page, newSearch);
+	}
+
+	async function loadUsers(page, search) {
+		let response = await fetch(`/api/admin/users?page=${page}&search=${search}`);
+		let { users, hasMore, totalUsers } = await response.json();
+		setUsers(users);
+		setHasMore(hasMore);
+		setTotalUsers(totalUsers);
+	}
 
 	let renderUsers = [];
 	for (let user of users) {
@@ -88,8 +119,34 @@ export default function Users(props) {
 				<Header user={user} />
 
 				<div className="py-6">
-					<div className="overflow-hidden overflow-x-auto rounded-lg shadow">
-						<table className="min-w-full divide-y divide-gray-200 ">
+					<div>
+						<label htmlFor="search" className="block text-sm font-medium leading-5 text-gray-700 sr-only">
+							Search
+						</label>
+						<div className="relative flex items-center mt-1 rounded-md">
+							<svg
+								className="absolute w-5 h-5 text-gray-400 left-3"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+							>
+								<path
+									fillRule="evenodd"
+									d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+									clipRule="evenodd"
+								/>
+							</svg>
+							<input
+								id="title"
+								type="text"
+								className="block w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:ring focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-50 sm:text-sm sm:leading-5"
+								placeholder="Search..."
+								value={search}
+								onChange={handleSearchChange}
+							></input>
+						</div>
+					</div>
+					<div className="mt-4 overflow-hidden overflow-x-auto rounded-lg shadow">
+						<table className="min-w-full divide-y divide-gray-200">
 							<thead>
 								<tr>
 									<th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">
@@ -108,6 +165,38 @@ export default function Users(props) {
 							</thead>
 							<tbody className="divide-y divide-gray-200">{renderUsers}</tbody>
 						</table>
+						<nav
+							className="flex items-center justify-between w-full px-4 py-3 bg-white border-t border-gray-200 sm:px-6"
+							aria-label="Pagination"
+						>
+							<div className="hidden sm:block">
+								<p className="text-sm text-gray-700">
+									Showing&nbsp;
+									<span className="font-medium">{totalUsers > 0 ? (page - 1) * 10 + 1 : 0}</span>
+									&nbsp;to&nbsp;
+									<span className="font-medium">{totalUsers > 10 ? page * 10 : totalUsers}</span>
+									&nbsp;of&nbsp;
+									<span className="font-medium">{totalUsers}</span>
+									&nbsp;results
+								</p>
+							</div>
+							<div className="flex justify-between flex-1 flex-grow sm:justify-end">
+								<button
+									disabled={page <= 1}
+									onClick={handlePreviousClick}
+									className="px-3 py-2 text-sm bg-white border border-gray-300 rounded-md shadow-sm disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 focus:border-blue-300"
+								>
+									Previous
+								</button>
+								<button
+									disabled={!hasMore}
+									onClick={handleNextClick}
+									className="px-3 py-2 ml-3 text-sm bg-white border border-gray-300 rounded-md shadow-sm disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 focus:border-blue-300"
+								>
+									Next
+								</button>
+							</div>
+						</nav>
 					</div>
 				</div>
 			</div>

@@ -28,43 +28,72 @@ adminRouter.use('/api/admin', async function (request, response, next) {
 adminRouter.get('/api/admin', async function (request, response) {
 	let now = Date.now();
 
-	let users = await db.all('SELECT * FROM users');
-	let last24HoursUsers = users.filter((u) => u.createdAt + 86400000 >= now);
+	let users = await db.get('SELECT count(*) AS length FROM users');
+	let last24HoursUsers = await db.get('SELECT count(*) AS length FROM users WHERE (createdAt + 86400000) >= ?', now);
 
-	let articles = await db.all('SELECT * FROM articles');
-	let publishedArticle = articles.filter((a) => a.published);
-	let last24HoursArticles = articles.filter((a) => a.createdAt + 86400000 >= now);
-	let last24HoursPublishedArticles = publishedArticle.filter((a) => a.createdAt + 86400000 >= now);
+	let articles = await db.get('SELECT count(*) AS length FROM articles');
+	let publishedArticles = await db.get('SELECT count(*) AS length FROM articles WHERE published = 1');
+
+	let last24HoursArticles = await db.all('SELECT * FROM articles WHERE (createdAt + 86400000) >= ?', now);
+	let last24HoursPublishedArticles = await db.all(
+		'SELECT * FROM articles WHERE published = 1 AND (createdAt + 86400000) >= ?',
+		now,
+	);
 
 	let usersData = { total: users.length, today: last24HoursUsers.length };
 	let articlesData = {
 		total: articles.length,
 		today: last24HoursArticles.length,
-		published: publishedArticle.length,
+		published: publishedArticles.length,
 		publishedToday: last24HoursPublishedArticles.length,
 	};
 
-	let recentArticles = articles.sort((a1, a2) => a2.updatedAt - a1.updatedAt).slice(0, 10);
+	let recentArticles = await db.all('SELECT * FROM articles ORDER BY id DESC LIMIT 10');
 	for (let article of recentArticles) {
-		let user = users.find((u) => u.id === article.userId);
-		user.hasPublishedArticle = articles.filter((a) => a.published && a.userId === user.id).length > 0;
+		let user = await db.get('SELECT * FROM users WHERE id = ?', article.userId);
+		let hasPublishedArticle = await db.get(
+			'SELECT count(*) AS length FROM articles WHERE published = 1 AND userId = ?',
+			user.id,
+		);
+		user.hasPublishedArticle = hasPublishedArticle?.length ?? 0 > 0;
 		article.user = user;
 	}
 
 	let user = request.user;
-	user.hasPublishedArticle = articles.filter((a) => a.published && a.userId === user.id).length > 0;
+	let hasPublishedArticle = await db.get(
+		'SELECT count(*) AS length FROM articles WHERE published = 1 AND userId = ?',
+		user.id,
+	);
+	user.hasPublishedArticle = hasPublishedArticle?.length ?? 0 > 0;
 
 	response.json({ user, usersData, articlesData, recentArticles });
 });
 
 adminRouter.get('/api/admin/users', async function (request, response) {
 	let user = request.user;
+	let { page } = request.query;
+	let searchQueryParam = request.query.search;
+	let search = searchQueryParam ? `%${searchQueryParam}%` : '%%';
 
+	let skip = (page - 1) * 10;
 	let users = await db.all(
-		`SELECT *, (SELECT COUNT(*) FROM articles WHERE userId = u.id AND published = 1) AS totalPublishedArticles, (SELECT COUNT(*) FROM articles WHERE userId = u.id AND published = 0) AS totalDraftArticles FROM users AS u ORDER BY lastSeenAt DESC, createdAt DESC `,
+		`SELECT *, (SELECT COUNT(*) FROM articles WHERE userId = u.id AND published = 1) AS totalPublishedArticles, (SELECT COUNT(*) FROM articles WHERE userId = u.id AND published = 0) AS totalDraftArticles FROM users AS u WHERE u.username LIKE ? OR u.name LIKE ? OR u.email LIKE ? ORDER BY lastSeenAt DESC, createdAt DESC LIMIT ?, 10`,
+		search,
+		search,
+		search,
+		skip,
 	);
 
-	response.json({ user, users });
+	let totalUsers = await db.get(
+		'SELECT count(*) AS length FROM users WHERE username LIKE ? OR name LIKE ? OR email LIKE ?',
+		search,
+		search,
+		search,
+	);
+
+	let hasMore = users.length + skip < totalUsers.length;
+
+	response.json({ user, users, totalUsers: totalUsers.length, hasMore });
 });
 
 adminRouter.post('/api/admin/mail', async function (request, response) {
