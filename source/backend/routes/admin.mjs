@@ -71,8 +71,10 @@ adminRouter.get('/api/admin', async function (request, response) {
 
 adminRouter.get('/api/admin/users', async function (request, response) {
 	let user = request.user;
-	let { page } = request.query;
+	let pageQueryParam = request.query.page;
 	let searchQueryParam = request.query.search;
+
+	let page = pageQueryParam ? parseInt(pageQueryParam, 10) : 1;
 	let search = searchQueryParam ? `%${searchQueryParam}%` : '%%';
 
 	let skip = (page - 1) * 10;
