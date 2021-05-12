@@ -23,7 +23,7 @@ export default function Profile(props) {
 
 				<Info {...user} />
 
-				<section className="py-12 space-y-10 sm:space-y-12 sm:py-16">{renderArticlesPreviews}</section>
+				<section className="py-12 space-y-14 sm:space-y-16 sm:py-16">{renderArticlesPreviews}</section>
 			</div>
 
 			<FooterSmall />
@@ -38,7 +38,7 @@ function Info({ name, description, avatarUrl }) {
 	let infoClassName = 'pt-12 sm:flex';
 	let textClassName = 'flex flex-col text-center sm:text-left';
 	if (name) {
-		renderName = <h1 className="text-4xl font-semibold text-blue-500">{name}</h1>;
+		renderName = <h1 className="text-4xl font-semibold text-gray-700 dark:text-gray-100">{name}</h1>;
 
 		if (description) {
 			renderDescription = <p className="text-gray-500 dark:text-gray-400 sm:text-lg">{description}</p>;
@@ -92,15 +92,12 @@ function ArticlePreview({ title, pinnedAt, publishedAt, description, slug }) {
 		<article className="flex flex-col">
 			<Link
 				to={`${slug}/`}
-				className="text-2xl font-semibold leading-snug text-gray-700 line-clamp-3 sm:text-3xl hover:text-gray-900 dark:text-gray-200 dark-hover:text-white"
+				className="text-2xl font-semibold leading-snug text-blue-500 line-clamp-3 hover:text-blue-600"
 			>
 				{title}
 			</Link>
 			{renderInfo}
 			{renderDescription}
-			<Link to={`${slug}/`} aria-label={title} className="inline-block mt-2 text-blue-500 hover:underline">
-				Read more
-			</Link>
 		</article>
 	);
 }
