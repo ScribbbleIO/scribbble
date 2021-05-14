@@ -31,7 +31,8 @@ export default function Profile(props) {
 	);
 }
 
-function Info({ name, description, avatarUrl }) {
+function Info(props) {
+	let { name, description, avatarUrl } = props;
 	let renderName;
 	let renderAvatar;
 	let renderDescription;

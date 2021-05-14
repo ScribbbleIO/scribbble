@@ -9,7 +9,7 @@ export default function WriteIcon() {
 				fill="currentColor"
 			/>
 			<path
-				className="text-gray-300 "
+				className="text-gray-300"
 				d="M11 3a1 1 0 00-1 1v12a1 1 0 001 1h5a1 1 0 001-1V4a1 1 0 00-1-1z"
 				fill="currentColor"
 			/>

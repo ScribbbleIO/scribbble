@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSpring, animated } from 'react-spring';
 import { Link } from 'react-sprout';
 import UserGroupIcon from '../../icons/user-group';
@@ -20,14 +20,6 @@ export default function Home(props) {
 	let totalArticles = useSpring({ value: articlesData.total, from: { value: 0 } });
 	let todayArticles = useSpring({ value: articlesData.today, from: { value: 0 } });
 
-	useEffect(() => {
-		document.title = 'Admin - Scribbble';
-
-		return () => {
-			document.title = 'Scribbble';
-		};
-	}, []);
-
 	let renderRecentArticles = [];
 	for (let article of recentArticles) {
 		let user = article.user;
@@ -37,7 +29,7 @@ export default function Home(props) {
 
 		renderArticleTitle = (
 			<Link
-				to={`preview/${user.username}/${article.slug}`}
+				to={`/${user.username}/${article.slug}/`}
 				className="w-full text-sm truncate max-w-0 whitespace-nowrap"
 			>
 				<p className="text-gray-500 truncate hover:underline">{article.title}</p>
@@ -61,9 +53,9 @@ export default function Home(props) {
 		let renderUser;
 		if (user.hasPublishedArticle) {
 			renderUser = (
-				<a href={`https://scribbble.io/${user.username}/`} className="text-sm truncate">
+				<Link to={`/${user.username}/`} className="text-sm truncate">
 					<p className="text-gray-500 truncate hover:underline">{user.name ?? user.username}</p>
-				</a>
+				</Link>
 			);
 		} else {
 			renderUser = `${user.name ?? user.username ?? user.email}`;

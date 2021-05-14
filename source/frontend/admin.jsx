@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Router from 'react-sprout';
 import ScreenSize from './components/screen-size';
 
@@ -9,6 +9,7 @@ import Home, { getHomeData } from './routes/admin/admin';
 import Users, { getUsersData } from './routes/admin/users';
 import Article, { getArticleData } from './routes/article';
 import Mail, { getMailData } from './routes/admin/mail';
+import Profile, { getProfileData } from './routes/profile';
 
 const AdminRouter = Router(
 	<ErrorBoundary>
@@ -16,13 +17,22 @@ const AdminRouter = Router(
 		<Mail path="mail" data={getMailData} />
 		<Users path="users" data={getUsersData} />
 
-		<Article path="preview/:username/:slug" data={getArticleData} />
+		<Profile path=":username/" data={getProfileData} />
+		<Article path="/:username/:slug/" data={getArticleData} />
 
 		<NotFound path="*" />
 	</ErrorBoundary>,
 );
 
 export default function Admin() {
+	useEffect(() => {
+		document.title = 'Admin - Scribbble';
+
+		return () => {
+			document.title = 'Scribbble';
+		};
+	}, []);
+
 	return (
 		<ScreenSize>
 			<AdminRouter />
