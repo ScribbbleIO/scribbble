@@ -51,7 +51,7 @@ async function update(user, article) {
 	}
 
 	let url = `/${user.username}/${article.slug}/`;
-	let ArticleRouter = Router.default(React.createElement(ArticleRoute, { path: url }), {
+	let ArticleRouter = Router(React.createElement(ArticleRoute, { path: url }), {
 		location: url,
 	});
 	let render = ReactDom.renderToStaticMarkup(React.createElement(ArticleRouter));

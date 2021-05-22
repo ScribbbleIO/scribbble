@@ -59,18 +59,10 @@ adminRouter.get('/api/admin', async function (request, response) {
 		article.user = user;
 	}
 
-	let user = request.user;
-	let hasPublishedArticle = await db.get(
-		'SELECT count(*) AS length FROM articles WHERE published = 1 AND userId = ?',
-		user.id,
-	);
-	user.hasPublishedArticle = hasPublishedArticle?.length ?? 0 > 0;
-
-	response.json({ user, usersData, articlesData, recentArticles });
+	response.json({ usersData, articlesData, recentArticles });
 });
 
 adminRouter.get('/api/admin/users', async function (request, response) {
-	let user = request.user;
 	let pageQueryParam = request.query.page;
 	let searchQueryParam = request.query.search;
 
@@ -95,7 +87,60 @@ adminRouter.get('/api/admin/users', async function (request, response) {
 
 	let hasMore = users.length + skip < totalUsers.length;
 
-	response.json({ user, users, totalUsers: totalUsers.length, hasMore });
+	response.json({ users, totalUsers: totalUsers.length, hasMore });
+});
+
+adminRouter.get('/api/admin/articles', async function (request, response) {
+	let typeQueryParam = request.query.type;
+	let pageQueryParam = request.query.page;
+	let searchQueryParam = request.query.search;
+
+	let type = typeQueryParam != undefined ? typeQueryParam : 'all';
+	let page = pageQueryParam ? parseInt(pageQueryParam, 10) : 1;
+	let search = searchQueryParam ? `%${searchQueryParam}%` : '%%';
+
+	let skip = (page - 1) * 10;
+	let articles;
+	if (type === 'published') {
+		articles = await db.all(
+			`SELECT id, title, slug, userId, createdAt, published FROM articles WHERE published = 1 AND (title LIKE ? OR content LIKE ?) ORDER BY createdAt DESC LIMIT ?, 10`,
+			search,
+			search,
+			skip,
+		);
+	} else if (type === 'draft') {
+		articles = await db.all(
+			`SELECT id, title, slug, userId, createdAt, published FROM articles WHERE published = 0 AND (title LIKE ? OR content LIKE ?) ORDER BY createdAt DESC LIMIT ?, 10`,
+			search,
+			search,
+			skip,
+		);
+	} else {
+		articles = await db.all(
+			`SELECT id, title, slug, userId, createdAt, published FROM articles WHERE (title LIKE ? OR content LIKE ?) ORDER BY createdAt DESC LIMIT ?, 10`,
+			search,
+			search,
+			skip,
+		);
+	}
+
+	for (let article of articles) {
+		let user = await db.get(
+			'SELECT *, (SELECT COUNT(*) FROM articles WHERE userId = u.id AND published = 1) AS totalPublishedArticles FROM users AS u WHERE id = ?',
+			article.userId,
+		);
+		article.user = user;
+	}
+
+	let totalArticles = await db.get(
+		'SELECT count(*) AS length FROM articles WHERE title LIKE ? OR content LIKE ?',
+		search,
+		search,
+	);
+
+	let hasMore = articles.length + skip < totalArticles.length;
+
+	response.json({ articles, totalArticles: totalArticles.length, hasMore });
 });
 
 adminRouter.post('/api/admin/mail', async function (request, response) {

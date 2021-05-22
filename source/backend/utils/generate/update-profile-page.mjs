@@ -24,7 +24,7 @@ export default async function updateProfilePage(username) {
 		}
 
 		let url = `/${user.username}/`;
-		let ProfileRouter = Router.default(React.createElement(ProfileRoute, { path: url }), {
+		let ProfileRouter = Router(React.createElement(ProfileRoute, { path: url }), {
 			location: url,
 		});
 		let render = ReactDom.renderToStaticMarkup(React.createElement(ProfileRouter));

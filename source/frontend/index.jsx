@@ -15,9 +15,15 @@ if (match) {
 	render = <Application />;
 }
 
-ReactDOM.render(
+ReactDOM.unstable_createRoot(document.getElementById('root')).render(
 	<Suspense fallback={null}>
 		<StaticContext.Provider value={false}>{render}</StaticContext.Provider>
 	</Suspense>,
-	document.getElementById('root'),
 );
+
+// ReactDOM.render(
+// 	<Suspense fallback={null}>
+// 		<StaticContext.Provider value={false}>{render}</StaticContext.Provider>
+// 	</Suspense>,
+// 	document.getElementById('root'),
+// );

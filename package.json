@@ -49,7 +49,7 @@
 		"react": "0.0.0-experimental-7f28234f8",
 		"react-dom": "0.0.0-experimental-7f28234f8",
 		"react-spring": "^8.0.27",
-		"react-sprout": "0.0.19",
+		"react-sprout": "^0.0.30",
 		"rehype-react": "^6.1.0",
 		"rss": "^1.2.2",
 		"sqlite": "^4.0.15",

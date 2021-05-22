@@ -10,12 +10,17 @@ import Users, { getUsersData } from './routes/admin/users';
 import Article, { getArticleData } from './routes/article';
 import Mail, { getMailData } from './routes/admin/mail';
 import Profile, { getProfileData } from './routes/profile';
+import Layout, { getLayoutData } from './components/admin/layout';
+import Articles, { getArticlesData } from './routes/admin/articles';
 
 const AdminRouter = Router(
 	<ErrorBoundary>
-		<Home path="." data={getHomeData} />
-		<Mail path="mail" data={getMailData} />
-		<Users path="users" data={getUsersData} />
+		<Layout data={getLayoutData}>
+			<Home path="." data={getHomeData} />
+			<Mail path="mail" data={getMailData} />
+			<Users path="users" data={getUsersData} />
+			<Articles path="articles" data={getArticlesData} />
+		</Layout>
 
 		<Profile path=":username/" data={getProfileData} />
 		<Article path="/:username/:slug/" data={getArticleData} />

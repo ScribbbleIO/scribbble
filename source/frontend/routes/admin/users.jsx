@@ -4,12 +4,17 @@ import { get } from '../../utils/rest';
 
 import Users from '../../pages/admin/users.jsx';
 
-export async function getUsersData() {
-	return await get('/api/admin/users?page=1');
+export async function getUsersData(params, splats, urlSearch) {
+	let searchParams = new URLSearchParams(urlSearch);
+
+	let page = searchParams.get('page') ?? 1;
+	let search = searchParams.get('search') ?? '';
+
+	return await get(`/api/admin/users?page=${page}&search=${search}`);
 }
 
 export default function AdminRoute() {
-	let { user, users, totalUsers, hasMore } = useData();
+	let { users, totalUsers, hasMore } = useData();
 
-	return <Users user={user} users={users} totalUsers={totalUsers} hasMore={hasMore} />;
+	return <Users users={users} totalUsers={totalUsers} hasMore={hasMore} />;
 }

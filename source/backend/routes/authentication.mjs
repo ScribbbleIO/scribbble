@@ -94,6 +94,10 @@ authenticationRouter.post('/login', async function (request, response) {
 			});
 		} else if (development) {
 			console.log(`🔑 ${url}`); // eslint-disable-line no-console
+			response.set('Location', url);
+			response.status(303);
+			response.end();
+			return;
 		}
 
 		let document = emailPageTemplate.replace('scribbble@scribbble.io', email);
