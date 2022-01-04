@@ -108,6 +108,12 @@ usersRouter.patch('/api/profile', async function (request, response, next) {
 			await updateProfilePage(updatedUser.username);
 			await updateFeed(updatedUser.username);
 
+			let userArticles = await db.all(
+				'SELECT * FROM articles WHERE userId = ? AND published = 1',
+				updatedUser.id,
+			);
+			updatedUser.hasPublishedArticle = userArticles.length > 0;
+
 			response.json({ user: updatedUser });
 		} catch (error) {
 			next(error);
